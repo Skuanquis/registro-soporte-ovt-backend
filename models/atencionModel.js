@@ -38,7 +38,7 @@ const updateAtencion = (id, atencionData, callback) => {
         problema, subproblema, estado, asistencia_remota, id
     ], callback);
 };
-
+ 
 module.exports = {
     createAtencion,
     getAtencionesByUserId,

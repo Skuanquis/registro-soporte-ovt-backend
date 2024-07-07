@@ -63,6 +63,86 @@ const updateUserPassword = (id, hashedPassword, callback) => {
     db.query(query, [hashedPassword, id], callback);
 };
 
+const getAtencionesUsuario = (id, callback) => {
+    const query = 'SELECT tipo_atencion, COUNT(*) AS total FROM atencion WHERE id_usuario = ? GROUP BY tipo_atencion'
+    db.query(query, [id], callback);
+};
+
+const getTodasAtenciones = (callback) => {
+    const query = 'SELECT tipo_atencion, COUNT(*) AS total FROM atencion GROUP BY tipo_atencion'
+    db.query(query, callback);
+}
+
+const getPendientesUsuario = (id, callback) => {
+    const query = `SELECT tipo_atencion, COUNT(*) AS cantidad FROM atencion WHERE estado = 'Pendiente' AND id_usuario = ? GROUP BY tipo_atencion`;
+    db.query(query, [id], callback);
+}
+
+const getTotalPendientes = (callback) => {
+    const query = `SELECT tipo_atencion, COUNT(*) AS cantidad FROM atencion WHERE estado = 'Pendiente' GROUP BY tipo_atencion;`
+    db.query(query, callback);
+}
+
+const getCasosSolucionadosMesPasante = (id, callback) => {
+    const query = `SELECT DAY(fecha) AS dia, COUNT(*) AS solucionados FROM atencion WHERE estado = 'solucionado' AND id_usuario = ? AND MONTH(fecha) = MONTH(CURRENT_DATE()) AND YEAR(fecha) = YEAR(CURRENT_DATE()) GROUP BY DAY(fecha);`
+    db.query(query, [id],callback)
+}
+
+const getCasosPendientesMesPasante = (id, callback) => {
+    const query = `SELECT DAY(fecha) AS dia, COUNT(*) AS pendientes FROM atencion WHERE estado = 'pendiente' AND id_usuario = ? AND MONTH(fecha) = MONTH(CURRENT_DATE()) AND YEAR(fecha) = YEAR(CURRENT_DATE()) GROUP BY DAY(fecha);`
+    db.query(query, [id],callback)
+}
+
+const getTotalCasosSolucionadosMes = (callback) => {
+    const query = `SELECT DAY(fecha) AS dia, COUNT(*) AS solucionados FROM atencion WHERE estado = 'solucionado' AND MONTH(fecha) = MONTH(CURRENT_DATE()) AND YEAR(fecha) = YEAR(CURRENT_DATE()) GROUP BY DAY(fecha);`
+    db.query(query, callback)
+}
+
+const getTotalCasosPendientesMes = (callback) => {
+    const query = `SELECT DAY(fecha) AS dia, COUNT(*) AS pendientes FROM atencion WHERE estado = 'pendiente' AND MONTH(fecha) = MONTH(CURRENT_DATE()) AND YEAR(fecha) = YEAR(CURRENT_DATE()) GROUP BY DAY(fecha);`
+    db.query(query, callback)
+}
+
+const getAtencionesMesPasante = (id, callback) => {
+    const query = `SELECT tipo_atencion, COUNT(*) AS total FROM atencion WHERE id_usuario = ? AND MONTH(fecha) = MONTH(CURRENT_DATE()) AND YEAR(fecha) = YEAR(CURRENT_DATE()) GROUP BY tipo_atencion;`
+    db.query(query, [id], callback)
+}
+
+const getAtencionesMesTotal = (callback) => {
+    const query = `SELECT tipo_atencion, COUNT(*) AS total FROM atencion WHERE MONTH(fecha) = MONTH(CURRENT_DATE()) AND YEAR(fecha) = YEAR(CURRENT_DATE()) GROUP BY tipo_atencion;`
+    db.query(query, callback)
+}
+
+const getPlanillasPasante = (id, callback) =>{
+    const query = `SELECT subproblema, COUNT(*) AS total FROM atencion WHERE problema = 'planillas' AND id_usuario = ? GROUP BY subproblema;`
+    db.query(query, [id], callback)
+}
+
+const getRoePasante = (id, callback) =>{
+    const query = `SELECT subproblema, COUNT(*) AS total FROM atencion WHERE problema = 'roe' AND id_usuario = ? GROUP BY subproblema;`
+    db.query(query, [id], callback)
+}
+
+const getTrabajadoresPasante = (id, callback) =>{
+    const query = `SELECT subproblema, COUNT(*) AS total FROM atencion WHERE problema = 'trabajadores' AND id_usuario = ? GROUP BY subproblema;`
+    db.query(query, [id], callback)
+}
+
+const getPlanillas = (callback) =>{
+    const query = `SELECT subproblema, COUNT(*) AS total FROM atencion WHERE problema = 'planillas' GROUP BY subproblema;`
+    db.query(query, callback)
+}
+
+const getRoe = (callback) =>{
+    const query = `SELECT subproblema, COUNT(*) AS total FROM atencion WHERE problema = 'roe' GROUP BY subproblema;`
+    db.query(query, callback)
+}
+
+const getTrabajadores = (callback) =>{
+    const query = `SELECT subproblema, COUNT(*) AS total FROM atencion WHERE problema = 'trabajadores' GROUP BY subproblema;`
+    db.query(query, callback)
+}
+
 module.exports = {
     getUserByUsername,
     getUserById,
@@ -71,5 +151,21 @@ module.exports = {
     getPasanteById,
     updatePasante,
     updateUserProfile,  
-    updateUserPassword
+    updateUserPassword,
+    getAtencionesUsuario,
+    getTodasAtenciones,
+    getPendientesUsuario,
+    getTotalPendientes,
+    getCasosPendientesMesPasante,
+    getCasosSolucionadosMesPasante,
+    getTotalCasosPendientesMes,
+    getTotalCasosSolucionadosMes,
+    getAtencionesMesPasante,
+    getAtencionesMesTotal,
+    getPlanillasPasante,
+    getRoePasante,
+    getTrabajadoresPasante,
+    getPlanillas,
+    getRoe,
+    getTrabajadores
 };

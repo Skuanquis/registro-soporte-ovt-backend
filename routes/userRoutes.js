@@ -9,7 +9,16 @@ router.get('/pasantes/:id', userController.getPasanteById);
 router.put('/pasantes/:id', userController.updatePasante);
 router.post('/login', userController.loginUser);
 router.get('/info', authenticateToken, userController.getUserInfo);
-router.put('/perfil/:id', authenticateToken, userController.updateUserProfile); // Ajuste en la URL
-router.put('/password/:id', authenticateToken, userController.updateUserPassword); // Ajuste en la URL
+router.put('/perfil/:id', authenticateToken, userController.updateUserProfile); 
+router.put('/password/:id', authenticateToken, userController.updateUserPassword); 
+router.get('/atenciones-usuario', authenticateToken, userController.getAtencionesUsuario);
+router.get('/pendientes-usuario', authenticateToken, userController.getPendientesUsuario);
+router.get('/pendientes-mes', authenticateToken, userController.getPendientesMes);
+router.get('/solucionados-mes', authenticateToken, userController.getSolucionesMes);
+router.get('/atenciones-mes', authenticateToken, userController.getTotalAtencionesMes);
+router.get('/total-planillas', authenticateToken, userController.getTotalPlanillas);
+router.get('/total-roe', authenticateToken, userController.getTotalRoe);
+router.get('/total-trabajadores', authenticateToken, userController.getTotalTrabajadores);
+
 
 module.exports = router;

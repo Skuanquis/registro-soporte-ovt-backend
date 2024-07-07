@@ -35,6 +35,8 @@ const updateAtencion = (req, res) => {
         res.send({ message: 'Atencion updated successfully' });
     });
 };
+
+
 module.exports = {
     createAtencion,
     getAtencionesByUser,

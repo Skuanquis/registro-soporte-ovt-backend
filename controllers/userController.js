@@ -151,6 +151,149 @@ const updateUserPassword = (req, res) => {
     });
 };
 
+const getAtencionesUsuario = (req, res) => {  
+    if (req.user.role === 'supervisor') {
+        userModel.getTodasAtenciones((err, atenciones) => {
+            if(err){
+                return res.status(500).send({ error: 'Error fetching atenciones' });
+            }
+            res.status(200).send(atenciones);
+        })
+    } else {
+        userModel.getAtencionesUsuario(req.user.id, (err, atenciones) => {
+            if(err){
+                return res.status(500).send({ error: 'Error fetching atenciones' });
+            }
+            res.status(200).send(atenciones);
+        })
+    }
+}
+
+const getPendientesUsuario = (req, res) => {  
+    if (req.user.role === 'supervisor') {
+        userModel.getTotalPendientes((err, atenciones) => {
+            if(err){
+                return res.status(500).send({ error: 'Error fetching atenciones' });
+            }
+            res.status(200).send(atenciones);
+        })
+    } else {
+        userModel.getPendientesUsuario(req.user.id, (err, atenciones) => {
+            if(err){
+                return res.status(500).send({ error: 'Error fetching atenciones' });
+            }
+            res.status(200).send(atenciones);
+        })
+    }
+}
+
+const getSolucionesMes = (req, res) => {  
+    if (req.user.role === 'supervisor') {
+        userModel.getTotalCasosSolucionadosMes((err, atenciones) => {
+            if(err){
+                return res.status(500).send({ error: 'Error fetching atenciones' });
+            }
+            res.status(200).send(atenciones);
+        })
+    } else {
+        userModel.getCasosSolucionadosMesPasante(req.user.id, (err, atenciones) => {
+            if(err){
+                return res.status(500).send({ error: 'Error fetching atenciones' });
+            }
+            res.status(200).send(atenciones);
+        })
+    }
+}
+
+const getPendientesMes = (req, res) => {  
+    if (req.user.role === 'supervisor') {
+        userModel.getTotalCasosPendientesMes((err, atenciones) => {
+            if(err){
+                return res.status(500).send({ error: 'Error fetching atenciones' });
+            }
+            res.status(200).send(atenciones);
+        })
+    } else {
+        userModel.getCasosPendientesMesPasante(req.user.id, (err, atenciones) => {
+            if(err){
+                return res.status(500).send({ error: 'Error fetching atenciones' });
+            }
+            res.status(200).send(atenciones);
+        })
+    }
+}
+
+const getTotalAtencionesMes = (req, res) => {  
+    if (req.user.role === 'supervisor') {
+        userModel.getAtencionesMesTotal((err, atenciones) => {
+            if(err){
+                return res.status(500).send({ error: 'Error fetching atenciones' });
+            }
+            res.status(200).send(atenciones);
+        })
+    } else {
+        userModel.getAtencionesMesPasante(req.user.id, (err, atenciones) => {
+            if(err){
+                return res.status(500).send({ error: 'Error fetching atenciones' });
+            }
+            res.status(200).send(atenciones);
+        })
+    }
+}
+
+const getTotalPlanillas = (req, res) => {  
+    if (req.user.role === 'supervisor') {
+        userModel.getPlanillas((err, atenciones) => {
+            if(err){
+                return res.status(500).send({ error: 'Error fetching atenciones' });
+            }
+            res.status(200).send(atenciones);
+        })
+    } else {
+        userModel.getPlanillasPasante(req.user.id, (err, atenciones) => {
+            if(err){
+                return res.status(500).send({ error: 'Error fetching atenciones' });
+            }
+            res.status(200).send(atenciones);
+        })
+    }
+}
+
+const getTotalRoe = (req, res) => {  
+    if (req.user.role === 'supervisor') {
+        userModel.getRoe((err, atenciones) => {
+            if(err){
+                return res.status(500).send({ error: 'Error fetching atenciones' });
+            }
+            res.status(200).send(atenciones);
+        })
+    } else {
+        userModel.getRoePasante(req.user.id, (err, atenciones) => {
+            if(err){
+                return res.status(500).send({ error: 'Error fetching atenciones' });
+            }
+            res.status(200).send(atenciones);
+        })
+    }
+}
+
+const getTotalTrabajadores = (req, res) => {  
+    if (req.user.role === 'supervisor') {
+        userModel.getTrabajadores((err, atenciones) => {
+            if(err){
+                return res.status(500).send({ error: 'Error fetching atenciones' });
+            }
+            res.status(200).send(atenciones);
+        })
+    } else {
+        userModel.getTrabajadoresPasante(req.user.id, (err, atenciones) => {
+            if(err){
+                return res.status(500).send({ error: 'Error fetching atenciones' });
+            }
+            res.status(200).send(atenciones);
+        })
+    }
+}
 
 module.exports = {
     loginUser,
@@ -160,5 +303,13 @@ module.exports = {
     getPasanteById,
     updatePasante,
     updateUserProfile,
-    updateUserPassword
+    updateUserPassword,
+    getAtencionesUsuario,
+    getPendientesUsuario,
+    getSolucionesMes,
+    getPendientesMes,
+    getTotalAtencionesMes,
+    getTotalPlanillas,
+    getTotalRoe,
+    getTotalTrabajadores
 };

@@ -295,6 +295,24 @@ const getTotalTrabajadores = (req, res) => {
     }
 }
 
+const getTotalOtros = (req, res) => {  
+    if (req.user.role === 'supervisor') {
+        userModel.getOtrosProblemas((err, atenciones) => {
+            if(err){
+                return res.status(500).send({ error: 'Error fetching atenciones' });
+            }
+            res.status(200).send(atenciones);
+        })
+    } else {
+        userModel.getOtrosProblemasPasante(req.user.id, (err, atenciones) => {
+            if(err){
+                return res.status(500).send({ error: 'Error fetching atenciones' });
+            }
+            res.status(200).send(atenciones);
+        })
+    }
+}
+
 module.exports = {
     loginUser,
     getUserInfo,
@@ -311,5 +329,6 @@ module.exports = {
     getTotalAtencionesMes,
     getTotalPlanillas,
     getTotalRoe,
-    getTotalTrabajadores
+    getTotalTrabajadores,
+    getTotalOtros
 };

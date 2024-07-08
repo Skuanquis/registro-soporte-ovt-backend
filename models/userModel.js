@@ -114,35 +114,44 @@ const getAtencionesMesTotal = (callback) => {
 }
 
 const getPlanillasPasante = (id, callback) =>{
-    const query = `SELECT subproblema, COUNT(*) AS total FROM atencion WHERE problema = 'planillas' AND id_usuario = ? GROUP BY subproblema;`
+    const query = `SELECT subproblema, COUNT(*) AS total FROM atencion WHERE problema = 'planillas' AND id_usuario = ? AND MONTH(fecha) = MONTH(CURRENT_DATE) AND YEAR (fecha) = YEAR(CURRENT_DATE) GROUP BY subproblema;`
     db.query(query, [id], callback)
 }
 
 const getRoePasante = (id, callback) =>{
-    const query = `SELECT subproblema, COUNT(*) AS total FROM atencion WHERE problema = 'roe' AND id_usuario = ? GROUP BY subproblema;`
+    const query = `SELECT subproblema, COUNT(*) AS total FROM atencion WHERE problema = 'roe' AND id_usuario = ? AND MONTH(fecha) = MONTH(CURRENT_DATE) AND YEAR(fecha) = YEAR(CURRENT_DATE) GROUP BY subproblema;`
     db.query(query, [id], callback)
 }
 
 const getTrabajadoresPasante = (id, callback) =>{
-    const query = `SELECT subproblema, COUNT(*) AS total FROM atencion WHERE problema = 'trabajadores' AND id_usuario = ? GROUP BY subproblema;`
+    const query = `SELECT subproblema, COUNT(*) AS total FROM atencion WHERE problema = 'trabajadores' AND id_usuario = ? AND MONTH(fecha) = MONTH(CURRENT_DATE) AND YEAR(fecha) = YEAR(CURRENT_DATE) GROUP BY subproblema;`
     db.query(query, [id], callback)
 }
 
 const getPlanillas = (callback) =>{
-    const query = `SELECT subproblema, COUNT(*) AS total FROM atencion WHERE problema = 'planillas' GROUP BY subproblema;`
+    const query = `SELECT subproblema, COUNT(*) AS total FROM atencion WHERE problema = 'planillas' AND MONTH(fecha) = MONTH(CURRENT_DATE) AND YEAR(fecha) = YEAR(CURRENT_DATE) GROUP BY subproblema;`
     db.query(query, callback)
 }
 
 const getRoe = (callback) =>{
-    const query = `SELECT subproblema, COUNT(*) AS total FROM atencion WHERE problema = 'roe' GROUP BY subproblema;`
+    const query = `SELECT subproblema, COUNT(*) AS total FROM atencion WHERE problema = 'roe' AND MONTH(fecha) = MONTH(CURRENT_DATE) AND YEAR(fecha) = YEAR(CURRENT_DATE) GROUP BY subproblema;`
     db.query(query, callback)
 }
 
 const getTrabajadores = (callback) =>{
-    const query = `SELECT subproblema, COUNT(*) AS total FROM atencion WHERE problema = 'trabajadores' GROUP BY subproblema;`
+    const query = `SELECT subproblema, COUNT(*) AS total FROM atencion WHERE problema = 'trabajadores' AND MONTH(fecha) = MONTH(CURRENT_DATE) AND YEAR(fecha) = YEAR(CURRENT_DATE) GROUP BY subproblema;`
     db.query(query, callback)
 }
 
+const getOtrosProblemasPasante = (id, callback) => {
+    const query = `SELECT problema, COUNT(*) AS total FROM atencion WHERE problema IN ('falla interoperabilidad', 'contraseña', 'otro') AND id_usuario = ? AND MONTH(fecha) = MONTH(CURRENT_DATE) AND YEAR(fecha) = YEAR(CURRENT_DATE) GROUP BY problema;`
+    db.query(query, [id], callback)
+}
+
+const getOtrosProblemas = (callback) => {
+    const query = `SELECT problema, COUNT(*) AS total FROM atencion WHERE problema IN ('falla interoperabilidad', 'contraseña', 'otro') AND MONTH(fecha) = MONTH(CURRENT_DATE) AND YEAR(fecha) = YEAR(CURRENT_DATE) GROUP BY problema;`
+    db.query(query, callback)
+}
 module.exports = {
     getUserByUsername,
     getUserById,
@@ -167,5 +176,7 @@ module.exports = {
     getTrabajadoresPasante,
     getPlanillas,
     getRoe,
-    getTrabajadores
+    getTrabajadores,
+    getOtrosProblemas,
+    getOtrosProblemasPasante
 };

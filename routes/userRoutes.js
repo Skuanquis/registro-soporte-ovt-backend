@@ -19,6 +19,6 @@ router.get('/atenciones-mes', authenticateToken, userController.getTotalAtencion
 router.get('/total-planillas', authenticateToken, userController.getTotalPlanillas);
 router.get('/total-roe', authenticateToken, userController.getTotalRoe);
 router.get('/total-trabajadores', authenticateToken, userController.getTotalTrabajadores);
-
+router.get('/total-otros', authenticateToken, userController.getTotalOtros);
 
 module.exports = router;

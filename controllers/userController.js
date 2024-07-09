@@ -313,6 +313,31 @@ const getTotalOtros = (req, res) => {
     }
 }
 
+const getPreguntasFrecuentes = (req, res) => {
+    userModel.getPreguntasFrecuentes((err, preguntas) => {
+        if (err) {
+            return res.status(500).send({ error: 'Error fetching preguntas' });
+        }
+        res.status(200).send(preguntas);
+    })
+}
+
+const createPregunta = (req, res) => {
+    const nuevaPregunta = {
+        categoria: req.body.categoria,
+        pregunta: req.body.pregunta,
+        respuesta: req.body.respuesta,
+        id_usuario: req.body.id_usuario 
+    };
+
+    userModel.addPregunta(nuevaPregunta, (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.status(201).json({ message: 'Pregunta añadida exitosamente' });
+    });
+};
+
 module.exports = {
     loginUser,
     getUserInfo,
@@ -330,5 +355,7 @@ module.exports = {
     getTotalPlanillas,
     getTotalRoe,
     getTotalTrabajadores,
-    getTotalOtros
+    getTotalOtros,
+    getPreguntasFrecuentes,
+    createPregunta
 };

@@ -152,6 +152,18 @@ const getOtrosProblemas = (callback) => {
     const query = `SELECT problema, COUNT(*) AS total FROM atencion WHERE problema IN ('falla interoperabilidad', 'contraseña', 'otro') AND MONTH(fecha) = MONTH(CURRENT_DATE) AND YEAR(fecha) = YEAR(CURRENT_DATE) GROUP BY problema;`
     db.query(query, callback)
 }
+
+const getPreguntasFrecuentes = (callback) => {
+    const query = 'SELECT categoria, pregunta, respuesta FROM preguntas_frecuentes;'
+    db.query(query, callback);
+};
+
+const addPregunta = (nuevaPregunta, callback) => {
+    const query = 'INSERT INTO preguntas_frecuentes (categoria, pregunta, respuesta, id_usuario) VALUES (?, ?, ?, ?)';
+    const { categoria, pregunta, respuesta, id_usuario } = nuevaPregunta;
+    db.query(query, [categoria, pregunta, respuesta, id_usuario], callback);
+};
+
 module.exports = {
     getUserByUsername,
     getUserById,
@@ -178,5 +190,7 @@ module.exports = {
     getRoe,
     getTrabajadores,
     getOtrosProblemas,
-    getOtrosProblemasPasante
+    getOtrosProblemasPasante,
+    getPreguntasFrecuentes,
+    addPregunta
 };

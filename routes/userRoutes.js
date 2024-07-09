@@ -20,5 +20,7 @@ router.get('/total-planillas', authenticateToken, userController.getTotalPlanill
 router.get('/total-roe', authenticateToken, userController.getTotalRoe);
 router.get('/total-trabajadores', authenticateToken, userController.getTotalTrabajadores);
 router.get('/total-otros', authenticateToken, userController.getTotalOtros);
+router.get('/preguntas-frecuentes', authenticateToken, userController.getPreguntasFrecuentes);
+router.post('/add-preguntas', authenticateToken, userController.createPregunta)
 
 module.exports = router;

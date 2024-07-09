@@ -7,9 +7,9 @@ const createAtencion = (req, res) => {
     atencionModel.createAtencion(atencionData, (err, results) => {
         if (err) {
             console.error('Error creating atencion:', err);
-            return res.status(500).send({ error: 'Error creating atencion' });
+            return res.status(500).send({ error: 'Error al registrar la atención.' });
         }
-        res.status(201).send({ message: 'Atencion created successfully', atencionId: results.insertId });
+        res.status(201).send({ message: 'La atención se registro exitosamente.', atencionId: results.insertId });
     });
 };
 
@@ -30,9 +30,9 @@ const updateAtencion = (req, res) => {
 
     atencionModel.updateAtencion(id, atencionData, (err, result) => {
         if (err) {
-            return res.status(500).send({ error: 'Error updating atencion' });
+            return res.status(500).send({ error: 'Error al actulalizar la atención' });
         }
-        res.send({ message: 'Atencion updated successfully' });
+        res.send({ message: 'Atencion actualizada exitosamente' });
     });
 };
 

@@ -164,6 +164,59 @@ const addPregunta = (nuevaPregunta, callback) => {
     db.query(query, [categoria, pregunta, respuesta, id_usuario], callback);
 };
 
+const getListaPasantes = (callback) => {
+    const query = 'SELECT id_usuario, nombre FROM usuarios WHERE rol = "pasante"';
+    db.query(query, callback);
+}
+
+const getReport = (filters, callback) => {
+    const { tipoAtencion, pasante, estado, problema, subproblema, fechaInicio, fechaFin } = filters;
+    
+    const formattedFechaInicio = new Date(fechaInicio).toISOString().split('T')[0];
+    const formattedFechaFin = new Date(fechaFin).toISOString().split('T')[0];
+    
+    let query = `
+        SELECT
+            a.tipo_atencion, u.nombre AS nombre_pasante, a.problema, a.subproblema, a.estado,
+            a.fecha, a.nit, a.nombre_empresa
+        FROM atencion a
+        JOIN usuarios u ON a.id_usuario = u.id_usuario
+        WHERE a.fecha >= ? AND a.fecha <= ?
+    `;
+    const params = [formattedFechaInicio, formattedFechaFin];
+    
+    if (tipoAtencion !== 'Todos') {
+        query += ' AND a.tipo_atencion = ?';
+        params.push(tipoAtencion);
+    }
+
+    if (estado !== 'Todos') {
+        query += ' AND a.estado = ?';
+        params.push(estado);
+    }
+
+    if (problema !== 'Todos') {
+        query += ' AND a.problema = ?';
+        params.push(problema);
+    }
+
+    if (subproblema !== 'Todos') {
+        query += ' AND a.subproblema = ?';
+        params.push(subproblema);
+    }
+    
+    if (pasante !== 'Todos') {
+        query += ' AND u.nombre = ?';
+        params.push(pasante);
+    }
+
+    db.query(query, params, (err, rows) => {
+        if (err) {
+            return callback(err, null);
+        }
+        callback(null, rows);
+    });
+};
 module.exports = {
     getUserByUsername,
     getUserById,
@@ -192,5 +245,7 @@ module.exports = {
     getOtrosProblemas,
     getOtrosProblemasPasante,
     getPreguntasFrecuentes,
-    addPregunta
+    addPregunta,
+    getListaPasantes,
+    getReport
 };

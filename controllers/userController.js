@@ -124,7 +124,6 @@ const updateUserPassword = (req, res) => {
             return res.status(500).send({ error: 'Error fetching user' });
         }
 
-        // Verifica si `user` es válido y contiene la propiedad `password`
         if (!user || !user.password) {
             console.error('User or password not found:', user);
             return res.status(400).send({ error: 'Invalid user or password' });
@@ -338,6 +337,29 @@ const createPregunta = (req, res) => {
     });
 };
 
+const getListaPasantes = (req, res) => {
+    userModel.getListaPasantes((err, pasantes) => {
+        if (err) {
+            console.error('Error fetching pasantes:', err);
+            return res.status(500).send({ error: 'Error fetching pasantes' });
+        }
+        pasantes.push({ id_usuario: 'Todos', nombre: 'Todos' });
+        res.status(200).send(pasantes);
+    });
+};
+
+const getReport = (req, res) => {
+    const filters = req.body;
+
+    userModel.getReport(filters, (err, report) => {
+        if (err) {
+            console.error('Error generating report:', err);
+            return res.status(500).send({ error: 'Error generating report' });
+        }
+        res.status(200).send(report);
+    });
+};
+
 module.exports = {
     loginUser,
     getUserInfo,
@@ -357,5 +379,7 @@ module.exports = {
     getTotalTrabajadores,
     getTotalOtros,
     getPreguntasFrecuentes,
-    createPregunta
+    createPregunta,
+    getListaPasantes,
+    getReport
 };

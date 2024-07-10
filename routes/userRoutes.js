@@ -21,6 +21,8 @@ router.get('/total-roe', authenticateToken, userController.getTotalRoe);
 router.get('/total-trabajadores', authenticateToken, userController.getTotalTrabajadores);
 router.get('/total-otros', authenticateToken, userController.getTotalOtros);
 router.get('/preguntas-frecuentes', authenticateToken, userController.getPreguntasFrecuentes);
-router.post('/add-preguntas', authenticateToken, userController.createPregunta)
+router.post('/add-preguntas', authenticateToken, userController.createPregunta);
+router.get('/lista-pasantes', authenticateToken, userController.getListaPasantes)
+router.post('/reportes', authenticateToken, userController.getReport)
 
 module.exports = router;
